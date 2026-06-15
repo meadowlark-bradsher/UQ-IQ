@@ -32,12 +32,8 @@ You already lean on this without naming it. TypeScript narrowing a variable thro
 
 ## The catch
 
-Here is the part that motivates everything after this. The order-invariance is a property of the *construction* — the external mask — not of the model.
+Here's the part that motivates everything after this. Order-invariance is a property of the *construction* — the external mask — not of the model.
 
-A bare language model does not behave this way. Reorder the questions and answers in a transcript and it can commit to a *different* conclusion: its apparent belief depends on the order the context arrived, which is exactly the incoherence the mask rules out. And the standard you hold it to is not statistical but **existential** — commutativity has to hold for *every* reordering, so a single reproducible flip is enough. A sound belief would flip never.
+A language model has a fold, not a belief. It reads the transcript in order and folds it into an answer, the way it folds any sequence — but that fold isn't commutative, so reorder the questions and answers and it can commit to a *different* conclusion. A real belief couldn't do that: a belief is a function of the *set* of evidence, not the order it arrived in. So whatever looks like a belief inside the model isn't one — it's sequence-processing, rebuilt from whatever happens to be in the context.
 
-So be careful how you say it. Don't say reordering *changes the belief state* — that concedes a belief was there to change. Say: reordering changes the **answer**, and a coherent belief couldn't do that, so there is no coherent belief; what looks like one is rebuilt from the context each time.
-
-The cleanest way to put it: **the model has a fold, not a belief.** It runs the autoregressive left-fold over the transcript in order — but it lacks the one property, commutativity, that would turn a function-of-the-sequence into a function-of-the-set, which is the same thing as turning a transcript-processor into a belief. The mask isn't a patch on the model; it's where we put the commutativity the model can't supply, held somewhere that can actually hold a belief.
-
-That leaves a clean conclusion. If you want a coherent, order-invariant belief, you can't extract it from the model — you maintain it outside, in a structure like this one. Next post: the experiment that catches the model breaking the rule.
+Commutativity is the missing piece — the property that would turn that fold into a belief — and it's exactly what the mask supplies. So if you want a coherent, order-invariant belief, you don't extract it from the model; you put it in a structure like this one, where AND makes the fold commutative by construction. Next post: the experiment that catches the model breaking the rule.
