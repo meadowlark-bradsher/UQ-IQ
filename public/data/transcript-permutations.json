@@ -1,0 +1,42 @@
+[
+  {
+    "orderingId": "canonical",
+    "isCanonical": true,
+    "sequence": [
+      {"questionId": "q_water",  "questionText": "Does it live in water?", "answer": "yes"},
+      {"questionId": "q_mammal", "questionText": "Is it a mammal?",        "answer": "yes"},
+      {"questionId": "q_fly",    "questionText": "Can it fly?",            "answer": "no"}
+    ],
+    "result": {
+      "committedSecret": "dolphin",
+      "confidence": 0.71,
+      "posterior": {"dolphin": 0.71, "shark": 0.18, "penguin": 0.11}
+    }
+  },
+  {
+    "orderingId": "fly-first",
+    "sequence": [
+      {"questionId": "q_fly",    "questionText": "Can it fly?",            "answer": "no"},
+      {"questionId": "q_water",  "questionText": "Does it live in water?", "answer": "yes"},
+      {"questionId": "q_mammal", "questionText": "Is it a mammal?",        "answer": "yes"}
+    ],
+    "result": {
+      "committedSecret": "shark",
+      "confidence": 0.58,
+      "posterior": {"shark": 0.58, "dolphin": 0.31, "penguin": 0.11}
+    }
+  },
+  {
+    "orderingId": "mammal-first",
+    "sequence": [
+      {"questionId": "q_mammal", "questionText": "Is it a mammal?",        "answer": "yes"},
+      {"questionId": "q_fly",    "questionText": "Can it fly?",            "answer": "no"},
+      {"questionId": "q_water",  "questionText": "Does it live in water?", "answer": "yes"}
+    ],
+    "result": {
+      "committedSecret": "dolphin",
+      "confidence": 0.66,
+      "posterior": {"dolphin": 0.66, "shark": 0.23, "penguin": 0.11}
+    }
+  }
+]

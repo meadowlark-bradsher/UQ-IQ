@@ -1,0 +1,18 @@
+{
+  "domainId": "animals-toy",
+  "secrets": [
+    {"id": "eagle", "label": "Eagle"}, {"id": "penguin", "label": "Penguin"},
+    {"id": "shark", "label": "Shark"}, {"id": "dolphin", "label": "Dolphin"},
+    {"id": "snake", "label": "Snake"}, {"id": "frog", "label": "Frog"},
+    {"id": "bat", "label": "Bat"}, {"id": "spider", "label": "Spider"}
+  ],
+  "questions": [
+    {"id": "q_fly",   "text": "Can it fly?",              "yesIds": ["eagle", "bat"]},
+    {"id": "q_water", "text": "Does it live in water?",   "yesIds": ["penguin", "shark", "dolphin", "frog"]},
+    {"id": "q_mammal","text": "Is it a mammal?",          "yesIds": ["dolphin", "bat"]},
+    {"id": "q_legs",  "text": "Does it have >4 legs?",    "yesIds": ["spider"]},
+    {"id": "q_cold",  "text": "Is it cold-blooded?",      "yesIds": ["shark", "snake", "frog", "spider"]},
+    {"id": "q_feathers","text": "Does it have feathers?",  "yesIds": ["eagle", "penguin"]},
+    {"id": "q_wings", "text": "Does it have wings?",       "yesIds": ["eagle", "penguin", "bat"]}
+  ]
+}

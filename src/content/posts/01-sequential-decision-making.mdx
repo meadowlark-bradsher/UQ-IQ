@@ -1,0 +1,113 @@
+import { EigCalculator } from '../../widgets/EigCalculator';
+import { QuestionToBitmask } from '../../widgets/QuestionToBitmask';
+
+*Draft — placeholder prose. Structure is settled; copy will be revised.*
+
+When we ask an agent to accomplish a goal, we rarely hand it the answer. We hand
+it the ability to *act*, *observe*, and *decide what to do next* — over and over,
+under uncertainty. The quality of an agent is largely the quality of that loop:
+given everything it knows so far, what is the most useful next move?
+
+This is the problem of **efficient sequential decision-making**. Each action costs
+something — time, money, a tool call, a turn of the user's patience — so a good
+agent doesn't just eventually reach the goal; it reaches it in *few, well-chosen
+steps*. The central question of this series is how to make that choice
+principled rather than ad hoc.
+
+## Where this shows up
+
+> Placeholder — expand with concrete use-cases.
+
+The same shape appears across very different agentic tasks:
+
+- **Diagnosis and troubleshooting** — which test or question rules out the most
+  possibilities right now?
+- **Search and retrieval** — which query best narrows a large candidate set?
+- **Active data collection** — which experiment or label is worth its cost?
+- **Interactive assistants** — which clarifying question resolves the most
+  ambiguity about what the user actually wants?
+
+In every case the agent holds some uncertainty about the world and must spend
+actions to reduce it. We want a way to *measure* that uncertainty and to *value*
+each action by how much of it the action is expected to remove.
+
+## The canonical toy: Twenty Questions
+
+> Placeholder — introduce the game and why it's the right minimal model.
+
+Twenty Questions strips the problem to its essentials. There is a hidden answer
+(the *secret*) drawn from some set of possibilities. You may ask yes/no questions.
+Each answer eliminates some possibilities and keeps others. You win by narrowing
+the set to one.
+
+It's the cleanest possible instance of sequential decision-making under
+uncertainty: no rewards to balance, no continuous control — just *belief,
+question, update, repeat*. Everything we'll build later (representing beliefs,
+combining evidence, checking coherence) is easiest to see here first.
+
+## A little information theory
+
+> Placeholder — define entropy and the "even split" intuition carefully.
+
+Suppose you have no reason to prefer one secret over another. Then your belief is
+the uniform distribution over the candidates, and the right measure of "how much
+you don't know" is the **Shannon entropy** of that belief, in **bits**:
+
+$$
+H = -\sum_i p_i \log_2 p_i
+$$
+
+A single yes/no question can, at best, cut your uncertainty in half — and it does
+exactly that when its two answers are **equally likely**. An even split moves you
+down by **one bit**. A lopsided question (almost everyone answers "yes") moves you
+much less; a question everyone answers the same way moves you not at all.
+
+So, absent a better reason, the agent should aim for **even splits**: each is a
+guaranteed one-bit reduction. This is the greedy information-gain strategy, and
+it's the intuition the first widget makes concrete.
+
+## How hard is the game?
+
+> Placeholder — connect entropy to expected number of turns.
+
+This gives us a clean notion of **difficulty**. If your belief has entropy $H$
+bits and every question buys you about one bit, then you should expect to need
+about **$H$ questions** to pin down the secret. For a uniform set of $N$
+candidates, $H = \log_2 N$ — eight candidates is three bits, a thousand is about
+ten. The total entropy *is* the expected number of well-chosen turns.
+
+Play with this below. Pick a question, or build your own by toggling which secrets
+answer "yes", and watch the expected information gain. Notice that the best
+question is the most even split, and that a question sending every secret to one
+side is worth exactly zero bits:
+
+<EigCalculator />
+
+## Representing a question as a bitmask
+
+> Placeholder — motivate the bitmask representation as the bridge to the next post.
+
+To *act* on questions efficiently, we need a representation we can compute with.
+Here's the key move: fix an ordering of the secrets. Then any question is just the
+oracle's yes/no answer for each secret in turn — a row of bits. That row is a
+single **bitmask**: one integer that encodes precisely which secrets the question
+keeps.
+
+Select a question and watch it collapse into its mask:
+
+<QuestionToBitmask />
+
+This looks like bookkeeping, but it's the foundation for everything next. Once
+each question and each answer is a bitmask, *combining evidence* becomes a single
+machine operation.
+
+## What's next
+
+> Placeholder.
+
+In the next post we'll answer questions and combine their masks with a **bitwise
+AND** — the operation that intersects "secrets still consistent with everything
+I've heard." We'll see the surviving set shrink monotonically, and we'll use it to
+ask a sharper question: does the order in which evidence arrives change where you
+end up? It shouldn't — and that turns out to be a real test of whether a belief is
+coherent.

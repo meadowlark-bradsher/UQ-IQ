@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-canvas text-ink font-sans antialiased;
+}
+
+/* Essay prose. Direct-child selectors so these styles apply ONLY to the MDX
+   prose and never cascade into embedded widgets (which bring their own chrome). */
+.essay > h1 {
+  @apply mt-2 text-3xl font-bold tracking-tight;
+}
+.essay > h2 {
+  @apply mt-10 text-xl font-semibold tracking-tight;
+}
+.essay > h3 {
+  @apply mt-8 text-lg font-semibold tracking-tight;
+}
+.essay > p {
+  @apply mt-4 leading-7 text-ink/90;
+}
+.essay > ul {
+  @apply mt-4 list-disc space-y-1.5 pl-6 leading-7 text-ink/90;
+}
+.essay > p a,
+.essay > ul a {
+  @apply text-accent hover:underline;
+}
+.essay > p code,
+.essay > ul code {
+  @apply rounded bg-ink/[0.06] px-1 py-0.5 font-mono text-[0.9em];
+}
+/* KaTeX display equations: give them breathing room and let them scroll on
+   narrow screens rather than overflow. */
+.essay .katex-display {
+  @apply my-6 overflow-x-auto overflow-y-hidden py-1;
+}
+.essay > blockquote {
+  @apply mt-4 border-l-2 border-accent/40 bg-accent/5 px-4 py-2 text-sm italic text-ink/60;
+}
+.essay em {
+  @apply text-ink/70;
+}
+.essay strong {
+  @apply font-semibold text-ink;
+}

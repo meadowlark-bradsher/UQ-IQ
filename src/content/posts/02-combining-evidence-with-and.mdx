@@ -1,0 +1,54 @@
+import { AndTape } from '../../widgets/AndTape';
+
+*Draft — placeholder prose. Structure is settled; copy will be revised.*
+
+In the [previous post](#/p/sequential-decision-making) we turned a single question
+into a **bitmask**: one integer recording which secrets it keeps. That was setup.
+The point of a representation is what it lets you *compute*, and here the payoff is
+immediate — combining evidence becomes one machine instruction.
+
+## A belief is a mask
+
+> Placeholder — define the running belief as a set / mask.
+
+At any moment the agent's belief is just the set of secrets still consistent with
+everything it has heard — and a set over a fixed roster of secrets is a bitmask.
+We'll start from a non-trivial belief (say, *warm-blooded animals*) rather than
+the whole roster, so the very first combination has something to do.
+
+## Combining evidence is bitwise AND
+
+> Placeholder — derive AND as the intersection / meet.
+
+A new answer is itself a mask: the secrets consistent with that answer. To fold it
+into the belief, keep only the secrets consistent with **both** — the
+**intersection** of the two sets. On bitmasks, intersection *is* the bitwise
+**AND**: a secret survives only where it has a `1` in every mask.
+
+Add a question or two and watch the fold happen bit by bit. Each surviving `1`
+that meets a `0` winks out; the belief can only shrink:
+
+<AndTape />
+
+## Two things to notice
+
+> Placeholder — monotonicity and the no-resurrection property.
+
+- **It only ever shrinks.** AND can clear a bit but never set one. Evidence
+  eliminates; it never resurrects a secret you've already ruled out. The survivor
+  count is monotonically non-increasing.
+- **It can bottom out.** Fold in contradictory answers and the belief reaches the
+  empty mask — zero survivors. That's the representation telling you your evidence
+  is inconsistent, which is a feature, not a crash.
+
+This little AND is the **meet** of a semilattice — the algebraic structure that
+makes "combine what I know" well-defined.
+
+## What's next
+
+> Placeholder.
+
+If combining evidence is just AND, and AND doesn't care what order you apply it
+in, then the agent's final belief shouldn't depend on the order its evidence
+arrived. The next post makes that **order-invariance** explicit — and uses it as a
+test of whether a belief is actually coherent.

@@ -1,0 +1,17 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vite
+
+# TypeScript incremental build caches
+*.tsbuildinfo
+
+# Local scratch / drafts (not part of the deployable site)
+inbox/
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
