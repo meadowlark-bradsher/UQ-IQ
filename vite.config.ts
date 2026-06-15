@@ -8,7 +8,7 @@ import rehypeKatex from 'rehype-katex';
 // The ONE place the repo name lives. Override with BASE_PATH (e.g. '/' for a
 // custom domain). All asset/data URLs must resolve through import.meta.env.BASE_URL
 // (see src/config.ts) — never hardcode this path anywhere else.
-const base = process.env.BASE_PATH ?? '/research-blog/';
+const base = process.env.BASE_PATH ?? '/UQ-IQ/';
 
 export default defineConfig({
   base,

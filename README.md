@@ -26,11 +26,11 @@ The deployment base path is defined in **exactly one place** —
 [`vite.config.ts`](./vite.config.ts):
 
 ```ts
-const base = process.env.BASE_PATH ?? '/research-blog/';
+const base = process.env.BASE_PATH ?? '/UQ-IQ/';
 ```
 
-- `/research-blog/` is the GitHub Pages **project subpath**. If your repo isn't
-  named `research-blog`, change this default (and nothing else).
+- `/UQ-IQ/` is the GitHub Pages **project subpath** (it must match the repo name).
+  If the repo is ever renamed, change this default (and nothing else).
 - Every asset and data URL resolves through `import.meta.env.BASE_URL`, exposed via
   [`src/config.ts`](./src/config.ts) (`assetUrl()`). **Never** hardcode a leading-
   slash path like `/data/foo.json` — it breaks under the subpath.
