@@ -1,0 +1,43 @@
+import { BitmaskElimination } from '../../widgets/BitmaskElimination';
+
+*Draft — placeholder prose. Structure is settled; copy will be revised.*
+
+In [the last post](#/p/combining-evidence-with-and) we treated a belief as a bitmask and folded questions into it with bitwise AND. Each answer cleared some bits; the set of live secrets only ever shrank. We left a loose thread hanging: if you had asked the same questions in a different order, would you have ended up somewhere different?
+
+You wouldn't — and that turns out to be the most important property the whole construction has.
+
+## Why the order can't matter
+
+The fold is built from a single operation, bitwise AND, and AND is commutative and associative:
+
+$$
+a \land b = b \land a \qquad (a \land b) \land c = a \land (b \land c)
+$$
+
+Commutativity says the two operands are interchangeable; associativity says the grouping is free. Together they say the surviving set depends only on *which* constraints you applied — not on the order you applied them, and not on how you bracketed them. Answer yes to "can it fly?" and then "is it a mammal?", or answer them the other way around, and you land on the same bat either way.
+
+Try it. Apply the constraints below in any order, then reshuffle them and apply them again:
+
+<BitmaskElimination />
+
+The survivors settle in the same place every time. There is no path through the questions that reaches a different answer.
+
+(A close neighbor: asking the same question twice does nothing, since $a \land a = a$. A belief built this way can't be double-counted into false confidence. Idempotence, if you want the name for it.)
+
+## This is coherence, not a coincidence
+
+A belief that shifted with the order evidence arrived would be incoherent — the same facts yielding different conclusions depending on the sequence you happened to learn them in. The mask cannot do that, because the belief is a function of the *set* of constraints, not their history. Path-independence is baked into the algebra rather than hoped for.
+
+You already lean on this without naming it. TypeScript narrowing a variable through a run of `typeof` and null checks; a SQL `WHERE` clause assembled from ANDed predicates — in both, reordering the checks doesn't change the result, and you'd be alarmed if it did. The bitmask belief is the same structure: a meet-semilattice, where "meet" is just AND, and commutativity is the property quietly doing the work.
+
+## The catch
+
+Here is the part that motivates everything after this. The order-invariance is a property of the *construction* — the external mask — not of the model.
+
+A bare language model does not behave this way. Reorder the questions and answers in a transcript and it can commit to a *different* conclusion: its apparent belief depends on the order the context arrived, which is exactly the incoherence the mask rules out. And the standard you hold it to is not statistical but **existential** — commutativity has to hold for *every* reordering, so a single reproducible flip is enough. A sound belief would flip never.
+
+So be careful how you say it. Don't say reordering *changes the belief state* — that concedes a belief was there to change. Say: reordering changes the **answer**, and a coherent belief couldn't do that, so there is no coherent belief; what looks like one is rebuilt from the context each time.
+
+The cleanest way to put it: **the model has a fold, not a belief.** It runs the autoregressive left-fold over the transcript in order — but it lacks the one property, commutativity, that would turn a function-of-the-sequence into a function-of-the-set, which is the same thing as turning a transcript-processor into a belief. The mask isn't a patch on the model; it's where we put the commutativity the model can't supply, held somewhere that can actually hold a belief.
+
+That leaves a clean conclusion. If you want a coherent, order-invariant belief, you can't extract it from the model — you maintain it outside, in a structure like this one. Next post: the experiment that catches the model breaking the rule.
